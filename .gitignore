@@ -1,2 +1,4 @@
 # Project exclude paths
 /target/
+/.idea/vcs.xml
+/src/Lab1_distribuerade_system.iml
