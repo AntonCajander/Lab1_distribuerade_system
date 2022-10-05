@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Lab1_distribuerade_system:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Lab1_distribuerade_system</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Lab1_distribuerade_system-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Lab1_distribuerade_system:war exploded" />
+    </root>
+  </artifact>
+</component>
