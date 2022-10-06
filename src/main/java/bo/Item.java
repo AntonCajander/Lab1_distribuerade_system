@@ -10,13 +10,17 @@ public class Item {
     private String name;
     private int price;
 
+    protected Item(int id , String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     static public Collection searchItems(String group) {
         return ItemDB.searchItems(group);
     }
 
-    protected Item(int id , String name) {
-        this.id = id;
-        this.name = name;
+    public static void addItemToCart(int itemId, int userId, int nrOfItems){
+       ItemDB.addItemToCart(itemId, userId, nrOfItems);
     }
 
     public String getName() {
@@ -26,5 +30,6 @@ public class Item {
     public int getPrice() {
         return price;
     }
+
 }
 

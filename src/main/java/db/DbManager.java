@@ -2,20 +2,16 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DbManager {
     private static DbManager instance = null;
     private Connection con = null;
 
-    private static DbManager getInstance(){
-        if (instance == null)
-            instance = new DbManager();
-        return instance;
-    }
     private DbManager(){
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://localhost/reine?user=root&password=reine4711");
+            con = DriverManager.getConnection("//jdbc:mysql://localhost:3306/Distribuerade_System?user=root&password=password");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -23,5 +19,23 @@ public class DbManager {
 
     public static Connection getConnection(){
         return getInstance().con;
+    }
+
+    private static DbManager getInstance(){
+        if (instance == null)
+            instance = new DbManager();
+        return instance;
+    }
+
+    public void disconnect(){   // kolla om det ska vara con eller instance
+        try {
+            if (this.con != null) {
+                con.close();
+                this.con = null;
+            }else throw new SQLException("Could not disconnect from database");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

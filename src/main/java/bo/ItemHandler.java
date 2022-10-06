@@ -18,4 +18,8 @@ public class ItemHandler {
         }
         return items;
     }
+
+    public static void addItemToCart(int itemId, int userId, int nrOfItems){
+        Item.addItemToCart(itemId, userId, nrOfItems);
+    }
 }
