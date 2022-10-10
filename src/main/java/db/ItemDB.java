@@ -6,17 +6,52 @@ import java.util.Vector;
 import java.util.Collection;
 
 public class ItemDB extends bo.Item {
+    //TODO Ändra i databasen så att en användare endast har userId, username och password
+    //TODO Hitta user med username och password, returnera id om den finns annars -1.
 
-    public static Collection searchItems(String group) { //TODO FEL QUERY
-        Vector v = new Vector();
+    private ItemDB(int id, String name) {
+        super(id, name);
+    }
+
+    public static void addItemToCart(int itemId, int userId, int nrOfItems){ //TODO Ta bort nrOfItems
+        PreparedStatement insertStatement = null;
+
+        try {
+            Connection con = DbManager.getConnection();
+            insertStatement = con.prepareStatement("insert into ShoppingCart values(?,?,?)");
+
+            insertStatement.setInt(1, userId);
+            insertStatement.setInt(2, itemId);
+            insertStatement.setInt(3, nrOfItems);
+
+            insertStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            if(insertStatement != null){
+                closePreparedStatement(insertStatement);
+            }
+        }
+    }
+
+    /**
+     * Takes a userId and returns a collection with the items in that users shoppingCart
+     * @param userId
+     * @return Collection with items
+     */
+
+    public static Collection<ItemDB> lookUpShoppingChartWithUserId(int userId) {
+        Vector<ItemDB> v = new Vector<>();
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select id, name from Item where item_group = " + group);
+            ResultSet rs = st.executeQuery("select * from ShoppingCart where userId = " + userId);
             while (rs.next()) {
-                int i = rs.getInt("item_id");
+                int id = rs.getInt("itemId");
                 String name = rs.getString("name");
-                v.addElement(new ItemDB(i, name));
+                v.addElement(new ItemDB(id, name));
             }
         }
         catch(SQLException e){
@@ -24,20 +59,16 @@ public class ItemDB extends bo.Item {
         }
         return v;
     }
-    private ItemDB(int id, String name) {
-        super(id, name);
-    }
 
-    public static void addItemToCart(int itemId, int userId, int nrOfItems){ //TODO Lösning för nrOfItems, den måste ju veta hur många items man redan har, men just nu kör jag att man får skriva in det
+    public static void createNewUser(String username, String password){ //TODO bytt till username och password flytta till ny klass userDB
         PreparedStatement insertStatement = null;
 
         try {
             Connection con = DbManager.getConnection();
-            insertStatement = con.prepareStatement("insert into ShoppingCart values(?,?,?)");
+            insertStatement = con.prepareStatement("INSERT INTO `distribuerade_system`.`user` (`username`, `password`) VALUES (?, ?);");
 
-            insertStatement.setInt(1, itemId);
-            insertStatement.setInt(2, userId);
-            insertStatement.setInt(3, nrOfItems);
+            insertStatement.setString(1, "`" +  username + "`");
+            insertStatement.setString(2, "`" + password + "`");
 
             insertStatement.executeUpdate();
         }
@@ -58,6 +89,24 @@ public class ItemDB extends bo.Item {
         catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public static Collection searchItems(String group) { //TODO FEL QUERY
+        Vector v = new Vector();
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select id, name from Item where item_group = " + group);
+            while (rs.next()) {
+                int i = rs.getInt("item_id");
+                String name = rs.getString("name");
+                v.addElement(new ItemDB(i, name));
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return v;
     }
 }
 
