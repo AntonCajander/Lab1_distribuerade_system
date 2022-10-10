@@ -10,8 +10,8 @@ public class DbManager {
 
     private DbManager(){
         try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("//jdbc:mysql://localhost:3306/Distribuerade_System?user=root&password=password");
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Distribuerade_System", "root", "password");
         }catch (Exception e){
             e.printStackTrace();
         }

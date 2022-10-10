@@ -67,8 +67,8 @@ public class ItemDB extends bo.Item {
             Connection con = DbManager.getConnection();
             insertStatement = con.prepareStatement("INSERT INTO `distribuerade_system`.`user` (`username`, `password`) VALUES (?, ?);");
 
-            insertStatement.setString(1, "`" +  username + "`");
-            insertStatement.setString(2, "`" + password + "`");
+            insertStatement.setString(1, username);
+            insertStatement.setString(2, password);
 
             insertStatement.executeUpdate();
         }
@@ -80,6 +80,26 @@ public class ItemDB extends bo.Item {
                 closePreparedStatement(insertStatement);
             }
         }
+    }
+
+    public static int findUserByName(String username, String password) throws SQLException { //TODO FUNKAR INTE
+        int nbrOfUsers = 0;
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select userId from User where username = " + username + " && password = " + password);
+
+            while(rs.next()){
+                nbrOfUsers++;
+            }
+            if (nbrOfUsers == 1){
+                return rs.getInt(0);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public static void closePreparedStatement(PreparedStatement statement){
