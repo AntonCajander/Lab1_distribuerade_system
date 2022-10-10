@@ -13,16 +13,15 @@ public class ItemDB extends bo.Item {
         super(id, name);
     }
 
-    public static void addItemToCart(int itemId, int userId, int nrOfItems){ //TODO Ta bort nrOfItems
+    public static void addItemToCart(int itemId, int userId){
         PreparedStatement insertStatement = null;
 
         try {
             Connection con = DbManager.getConnection();
-            insertStatement = con.prepareStatement("insert into ShoppingCart values(?,?,?)");
+            insertStatement = con.prepareStatement("insert into ShoppingCart values(?,?)");
 
             insertStatement.setInt(1, userId);
             insertStatement.setInt(2, itemId);
-            insertStatement.setInt(3, nrOfItems);
 
             insertStatement.executeUpdate();
         }
@@ -42,15 +41,15 @@ public class ItemDB extends bo.Item {
      * @return Collection with items
      */
 
-    public static Collection<ItemDB> lookUpShoppingChartWithUserId(int userId) {
+    public static Collection<ItemDB> lookUpShoppingChartWithUserId(int userId) { //TODO FEL
         Vector<ItemDB> v = new Vector<>();
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from ShoppingCart where userId = " + userId);
+            ResultSet rs = st.executeQuery("select * from ShoppingCart where userId = " + "'" + userId + "'");
             while (rs.next()) {
                 int id = rs.getInt("itemId");
-                String name = rs.getString("name");
+                String name = rs.getString("userId");
                 v.addElement(new ItemDB(id, name));
             }
         }
@@ -60,7 +59,28 @@ public class ItemDB extends bo.Item {
         return v;
     }
 
-    public static void createNewUser(String username, String password){ //TODO bytt till username och password flytta till ny klass userDB
+    /**
+     * Gives you the name of an item given the id
+     * @param itemId
+     * @return
+     */
+
+    public static ItemDB findItemById(int itemId){
+        ItemDB result = null;
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from Item where itemId = " + "'" + itemId + "'");
+            if (rs.next()){
+                result = new ItemDB(rs.getInt("itemId"), rs.getString("name"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static void createNewUser(String username, String password){ //TODO flytta till ny klass userDB
         PreparedStatement insertStatement = null;
 
         try {
@@ -82,18 +102,14 @@ public class ItemDB extends bo.Item {
         }
     }
 
-    public static int findUserByName(String username, String password) throws SQLException { //TODO FUNKAR INTE
-        int nbrOfUsers = 0;
+    public static int findUserByName(String username, String password){
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select userId from User where username = " + username + " && password = " + password);
+            ResultSet rs = st.executeQuery("SELECT userId FROM distribuerade_system.user WHERE username = " + "'" + username + "'" + " AND password = " + "'" + password + "'");
 
-            while(rs.next()){
-                nbrOfUsers++;
-            }
-            if (nbrOfUsers == 1){
-                return rs.getInt(0);
+            if (rs.next()){
+                return rs.getInt("userId");
             }
 
         }catch (SQLException e){
@@ -102,31 +118,13 @@ public class ItemDB extends bo.Item {
         return -1;
     }
 
-    public static void closePreparedStatement(PreparedStatement statement){
+    private static void closePreparedStatement(PreparedStatement statement){
         try{
             statement.close();
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-    }
-
-    public static Collection searchItems(String group) { //TODO FEL QUERY
-        Vector v = new Vector();
-        try {
-            Connection con = DbManager.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select id, name from Item where item_group = " + group);
-            while (rs.next()) {
-                int i = rs.getInt("item_id");
-                String name = rs.getString("name");
-                v.addElement(new ItemDB(i, name));
-            }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-        return v;
     }
 }
 

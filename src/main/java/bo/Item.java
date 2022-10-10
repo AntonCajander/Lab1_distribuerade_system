@@ -15,14 +15,6 @@ public class Item {
         this.name = name;
     }
 
-    static public Collection searchItems(String group) {
-        return ItemDB.searchItems(group);
-    }
-
-    public static void addItemToCart(int itemId, int userId, int nrOfItems){
-       ItemDB.addItemToCart(itemId, userId, nrOfItems);
-    }
-
     public String getName() {
         return name;
     }
@@ -31,5 +23,16 @@ public class Item {
         return price;
     }
 
+    public static void addItemToCart(int itemId, int userId){
+       ItemDB.addItemToCart(itemId, userId);
+    }
+
+    public static void createNewUser(String username, String password){
+        ItemDB.createNewUser(username, password);
+    }
+
+    public static int findUserByName(String username, String password){
+        return ItemDB.findUserByName(username, password);
+    }
 }
 
