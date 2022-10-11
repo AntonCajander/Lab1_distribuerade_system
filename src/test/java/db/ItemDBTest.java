@@ -13,7 +13,7 @@ class ItemDBTest {
 
     @Test
     void addItemToCart() {
-        ItemDB.addItemToCart(3, 4, 6);
+        ItemDB.addItemToCart(3, 6, 1);
     }
 
     @Test
@@ -28,7 +28,7 @@ class ItemDBTest {
 
     @Test
     void lookUpShoppingChartWithUserId() {
-        Collection<ItemDB> c = ItemDB.lookUpShoppingChartWithUserId(4);
+        Collection<ItemDB> c = ItemDB.lookUpShoppingChartWithUserId(6);
         ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
 
         for (ItemDB itemDB : c) {
@@ -45,7 +45,7 @@ class ItemDBTest {
     @Test
     void nrOfItemsInCart(){
 
-        System.out.println(ItemDB.nrOfItemsInCart(2,5));
+        //System.out.println(ItemDB.nrOfItemsInCart(2,5));
     }
 
     @Test

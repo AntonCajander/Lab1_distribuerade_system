@@ -17,6 +17,11 @@ public class DbManager {
         }
     }
 
+    /**
+     * Method to establish a connection with the database
+     * @return
+     */
+
     public static Connection getConnection(){
         return getInstance().con;
     }
@@ -27,7 +32,7 @@ public class DbManager {
         return instance;
     }
 
-    public void disconnect(){
+    public void disconnect(){ //TODO Ta bort?
         try {
             if (this.con != null) {
                 con.close();

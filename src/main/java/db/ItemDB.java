@@ -7,9 +7,22 @@ import java.util.Collection;
 
 public class ItemDB extends bo.Item {
 
+    /**
+     * Constructor with the variable nrOfItems which is used to see how many of a particular item a certain user has
+     * @param id
+     * @param name
+     * @param nrOfItems
+     */
+
     private ItemDB(int id, String name, int nrOfItems) {
         super(id, name, nrOfItems);
     }
+
+    /**
+     * Constructor without nrOfItems
+     * @param id
+     * @param name
+     */
 
     private ItemDB(int id, String name) {
         super(id, name);
@@ -54,6 +67,11 @@ public class ItemDB extends bo.Item {
         }
     }
 
+    /**
+     * Returns a vector containing every item in the store
+     * @return vector
+     */
+
     public static Collection<ItemDB> getAllItems() {
         Vector<ItemDB> v = new Vector<>();
         try {
@@ -79,7 +97,7 @@ public class ItemDB extends bo.Item {
      * @param userId
      * @return
      */
-    public static int nrOfItemsInCart(int itemId, int userId) { //TODO Gör private
+    private static int nrOfItemsInCart(int itemId, int userId) {
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
@@ -128,7 +146,7 @@ public class ItemDB extends bo.Item {
      * Gives you the name of an item given the id
      *
      * @param itemId
-     * @return
+     * @return itemDB
      */
 
     public static ItemDB findItemById(int itemId) {
@@ -194,6 +212,11 @@ public class ItemDB extends bo.Item {
         }
         return -1;
     }
+
+    /**
+     * Used to close the prepared statement
+     * @param statement
+     */
 
     private static void closePreparedStatement(PreparedStatement statement) {
         try {

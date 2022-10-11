@@ -15,7 +15,6 @@ public class ItemHandler {
     public static Collection<ItemInfo> getShoppingCartItems(int userId) {
         Collection c = Item.getShoppingCartItems(userId);
         ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
-        System.out.println("Inne i get Shopping ");
 
         for (Iterator it = c.iterator(); it.hasNext(); ) {
             Item item = (Item) it.next();
