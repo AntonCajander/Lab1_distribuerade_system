@@ -8,8 +8,8 @@ import java.util.Iterator;
 
 public class ItemHandler {
 
-    public static void addItemToCart(int itemId, int userId, int nrOfItems){
-        Item.addItemToCart(itemId, userId, nrOfItems);
+    public static void addItemToCart(int itemId, int userId){
+        Item.addItemToCart(itemId, userId);
     }
 
     public static Collection<ItemInfo> getShoppingCartItems(int userId) {
@@ -18,7 +18,7 @@ public class ItemHandler {
 
         for (Iterator it = c.iterator(); it.hasNext(); ) {
             Item item = (Item) it.next();
-            items.add(new ItemInfo(item.getName(), item.getId()));
+            items.add(new ItemInfo(item.getName(), item.getId(), item.getNrOfItems()));
         }
         return items;
     }
@@ -29,5 +29,16 @@ public class ItemHandler {
 
     public static int findUserByName(String username, String password){
         return Item.findUserByName(username, password);
+    }
+
+    public static Collection<ItemInfo> getAllItems() {
+        Collection c = Item.getAllItems();
+        ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
+
+        for (Iterator it = c.iterator(); it.hasNext(); ) {
+            Item item = (Item) it.next();
+            items.add(new ItemInfo(item.getName(), item.getId()));
+        }
+        return items;
     }
 }

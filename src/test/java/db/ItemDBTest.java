@@ -13,7 +13,7 @@ class ItemDBTest {
 
     @Test
     void addItemToCart() {
-        ItemDB.addItemToCart(3, 6, 1);
+        ItemDB.addItemToCart(3, 4);
     }
 
     @Test

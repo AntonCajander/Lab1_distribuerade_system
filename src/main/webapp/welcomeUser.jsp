@@ -10,10 +10,7 @@
 
 <body>
 <%
-    String userId=request.getParameter("userId");
-    System.out.println("Welcome " + userId);
 
-    session.setAttribute("user", userId);
 %>
     <a href="shoppingList.jsp">Shopping list</a>
 

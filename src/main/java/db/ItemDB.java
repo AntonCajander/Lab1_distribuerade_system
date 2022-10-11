@@ -34,9 +34,8 @@ public class ItemDB extends bo.Item {
      *
      * @param itemId
      * @param userId
-     * @param nrOfNewItems
      */
-    public static void addItemToCart(int itemId, int userId, int nrOfNewItems) {
+    public static void addItemToCart(int itemId, int userId) {
         PreparedStatement statement = null;
         int nrOfExistingItems = nrOfItemsInCart(itemId, userId);
 
@@ -47,12 +46,12 @@ public class ItemDB extends bo.Item {
 
                 statement.setInt(1, userId);
                 statement.setInt(2, itemId);
-                statement.setInt(3, nrOfNewItems);
+                statement.setInt(3, 1);
 
             } else {
                 statement = con.prepareStatement("UPDATE `Distribuerade_System`.`ShoppingCart` SET `nrOfItems` = (?) WHERE (`userId` = (?)) and (`itemId` = (?));");
 
-                statement.setInt(1, nrOfExistingItems + nrOfNewItems);
+                statement.setInt(1, nrOfExistingItems + 1);
                 statement.setInt(2, userId);
                 statement.setInt(3, itemId);
 

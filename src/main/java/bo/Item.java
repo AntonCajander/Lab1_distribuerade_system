@@ -48,11 +48,10 @@ public class Item {
      * Method to add an item to a users shopping cart
      * @param itemId
      * @param userId
-     * @param nrOfItems
      */
 
-    public static void addItemToCart(int itemId, int userId, int nrOfItems){
-       ItemDB.addItemToCart(itemId, userId, nrOfItems);
+    public static void addItemToCart(int itemId, int userId){
+       ItemDB.addItemToCart(itemId, userId);
     }
 
     /**
@@ -86,6 +85,9 @@ public class Item {
 
     public int getId(){
         return id;
+    }
+    static public Collection getAllItems() {
+        return ItemDB.getAllItems();
     }
 }
 

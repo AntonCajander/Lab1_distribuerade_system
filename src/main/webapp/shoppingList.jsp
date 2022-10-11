@@ -14,54 +14,53 @@
 <html>
 <body>
 <%
-    System.out.println("AAA ");
+    int userId = (int) session.getAttribute("userid");
 
-
-    Collection<ItemInfo> listItems = ItemHandler.getShoppingCartItems(1);
-    System.out.println("Längd " + listItems.size());
+    Collection<ItemInfo> listItems = ItemHandler.getShoppingCartItems(userId);
 
     Iterator<ItemInfo> it = listItems.iterator();
     for (;it.hasNext();){
         ItemInfo item = it.next(); %>
-        <%= item.getItemId() %>
-        <%= item.getName() %>s
+        <%= item.getName() %>
+        <%= item.getNrOfItems() %>
         <br>
 <%
     }
 %>
-
-<%
-    ArrayList<String> list = new ArrayList<>();
-    list.add("Banan");
-    list.add("Ananas");
-    list.add("Citron");
-    list.add("Lime");
-
-
-%>
-<form action="#">
+<br>
+<br>
+<form method="post" action="shoppingList.jsp">
     <select name="item">
         <%
-        for (String item: list ) {%>
-            <option> <%= item %> </option>
+            Collection<ItemInfo> allItemsList = ItemHandler.getAllItems();
+            Iterator<ItemInfo> itAllItems = allItemsList.iterator();
+            for (;itAllItems.hasNext();){
+                ItemInfo allItem = itAllItems.next();%>
+            <option name="<%= allItem.getItemId()%>"> <%= allItem.getName() %> </option>
         <%
         }
         %>
     </select>
-    <input type="submit" value="go"><br/>
+
+    <input type="submit" value="add item"><br/>
 
 </form>
 <%
     if(request.getParameter("item") != null){
         String itemString = request.getParameter("item");
-        System.out.println("VALD " + itemString);
         int itemId = -1;
-        for(int i = 0; i < list.size(); i++){
-            if(itemString.equalsIgnoreCase(list.get(i))){
-                itemId = i;
+
+        Iterator<ItemInfo> itAllItems2 = allItemsList.iterator();
+
+        for (;itAllItems2.hasNext();) {
+            ItemInfo allItem = itAllItems2.next();
+            if(itemString.equals(allItem.getName())){
+                itemId = allItem.getItemId();
             }
         }
-        ItemHandler.addItemToCart(itemId, 1);
+        if(itemId != -1){
+            ItemHandler.addItemToCart(itemId, userId);
+        }
     }
 %>
 </body>
