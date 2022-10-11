@@ -2,7 +2,6 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DbManager {
     private static DbManager instance = null;
@@ -30,17 +29,5 @@ public class DbManager {
         if (instance == null)
             instance = new DbManager();
         return instance;
-    }
-
-    public void disconnect(){ //TODO Ta bort?
-        try {
-            if (this.con != null) {
-                con.close();
-                this.con = null;
-            }else throw new SQLException("Could not disconnect from database");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

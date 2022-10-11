@@ -32,7 +32,7 @@
         }
 
     } else { %>
-<form method="post" action="login.jsp">
+<form method="post" action="index.jsp">
     <table border="1">
         <tbody>
         <tr>

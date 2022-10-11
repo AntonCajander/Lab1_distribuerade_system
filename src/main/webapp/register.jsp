@@ -38,7 +38,7 @@
         ItemHandler.createNewUser(regUsername, regPwd);
     }
 %>
-<a href="login.jsp">Login</a>
+<a href="index.jsp">Login</a>
 
 </body>
 </html>

@@ -171,7 +171,6 @@ public class ItemDB extends bo.Item {
 
     public static void createNewUser(String username, String password) { //TODO flytta till ny klass userDB
         PreparedStatement insertStatement = null;
-
         try {
             Connection con = DbManager.getConnection();
             insertStatement = con.prepareStatement("INSERT INTO `distribuerade_system`.`user` (`username`, `password`) VALUES (?, ?);");
