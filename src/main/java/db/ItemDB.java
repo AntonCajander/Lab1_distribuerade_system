@@ -7,6 +7,10 @@ import java.util.Collection;
 
 public class ItemDB extends bo.Item {
 
+    private ItemDB(int id, String name, int nrOfItems) {
+        super(id, name, nrOfItems);
+    }
+
     private ItemDB(int id, String name) {
         super(id, name);
     }
@@ -50,6 +54,23 @@ public class ItemDB extends bo.Item {
         }
     }
 
+    public static Collection<ItemDB> getAllItems() {
+        Vector<ItemDB> v = new Vector<>();
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from Item");
+            while(rs.next()){
+                int id = rs.getInt("itemId");
+                String name = rs.getString("name");
+                v.addElement(new ItemDB(id, name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return v;
+    }
+
     /**
      * Checks if a particular user has a particular item in his shopping cart, if yes. Return the amount
      * of that item. Otherwise, return -1.
@@ -84,17 +105,17 @@ public class ItemDB extends bo.Item {
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select itemId from ShoppingCart where userId = " + "'" +  userId + "'");
+            ResultSet rs = st.executeQuery("select itemId, nrOfItems from ShoppingCart where userId = " + "'" +  userId + "'");
 
             while(rs.next()){
                 Statement st2 = con.createStatement();
                 ResultSet rs2 = st2.executeQuery("select * from Item where itemId = " + "'" +  rs.getInt("itemId") + "'");
 
                 while(rs2.next()){
-                    System.out.println("Resultat ");
                     int id = rs2.getInt("itemId");
                     String name = rs2.getString("name");
-                    v.addElement(new ItemDB(id, name));
+                    int nrOfItems = rs.getInt("nrOfItems");
+                    v.addElement(new ItemDB(id, name, nrOfItems));
                 }
             }
         } catch (SQLException e) {

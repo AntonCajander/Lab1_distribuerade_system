@@ -9,6 +9,13 @@ public class Item {
     private int id;
     private String name;
     private int price;
+    private int nrOfItems;
+
+    protected Item(int id , String name, int nrOfItems) {
+        this.id = id;
+        this.name = name;
+        this.nrOfItems = nrOfItems;
+    }
 
     protected Item(int id , String name) {
         this.id = id;
@@ -25,6 +32,10 @@ public class Item {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getNrOfItems() {
+        return nrOfItems;
     }
 
     public static void addItemToCart(int itemId, int userId, int nrOfItems){
