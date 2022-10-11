@@ -15,12 +15,18 @@ class ItemDBTest {
 
     @Test
     void addItemToCart() {
-        ItemDB.addItemToCart(1, 4);
+        ItemDB.addItemToCart(2, 4, 2);
     }
 
     @Test
     void findItemById(){
         System.out.println(ItemDB.findItemById(1).getName());
+    }
+
+    @Test
+    void nrOfItemsInCart(){
+
+        System.out.println(ItemDB.nrOfItemsInCart(2,5));
     }
 
     @Test

@@ -8,6 +8,9 @@ import java.util.Iterator;
 
 public class ItemHandler {
 
+    public static void addItemToCart(int itemId, int userId, int nrOfItems){
+        Item.addItemToCart(itemId, userId, nrOfItems);
+    }
 
     public static Collection<ItemInfo> getShoppingCartItems(int userId) {
         Collection c = Item.getShoppingCartItems(userId);
@@ -19,11 +22,6 @@ public class ItemHandler {
             items.add(new ItemInfo(item.getName(), item.getId()));
         }
         return items;
-    }
-
-    public static void addItemToCart(int itemId, int userId){
-
-        Item.addItemToCart(itemId, userId);
     }
 
     public static void createNewUser(String username, String password){

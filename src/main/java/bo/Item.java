@@ -27,6 +27,10 @@ public class Item {
         return price;
     }
 
+    public static void addItemToCart(int itemId, int userId, int nrOfItems){
+       ItemDB.addItemToCart(itemId, userId, nrOfItems);
+    }
+
     public int getId(){
         return id;
     }

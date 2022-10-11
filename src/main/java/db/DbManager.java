@@ -27,7 +27,7 @@ public class DbManager {
         return instance;
     }
 
-    public void disconnect(){   // kolla om det ska vara con eller instance
+    public void disconnect(){
         try {
             if (this.con != null) {
                 con.close();

@@ -6,37 +6,75 @@ import java.util.Vector;
 import java.util.Collection;
 
 public class ItemDB extends bo.Item {
-    //TODO Ändra i databasen så att en användare endast har userId, username och password
-    //TODO Hitta user med username och password, returnera id om den finns annars -1.
 
     private ItemDB(int id, String name) {
         super(id, name);
     }
 
-    public static void addItemToCart(int itemId, int userId){
-        PreparedStatement insertStatement = null;
+    /**
+     * Checks to see if the user already has that item in the shopping cart, if yes. Execute an update statement
+     * that increase the nr of that item. If not, execute insert statement with the item and the amount of that item.
+     *
+     * @param itemId
+     * @param userId
+     * @param nrOfNewItems
+     */
+    public static void addItemToCart(int itemId, int userId, int nrOfNewItems) {
+        PreparedStatement statement = null;
+        int nrOfExistingItems = nrOfItemsInCart(itemId, userId);
 
         try {
             Connection con = DbManager.getConnection();
-            insertStatement = con.prepareStatement("insert into ShoppingCart values(?,?)");
+            if (nrOfExistingItems == -1) {
+                statement = con.prepareStatement("insert into ShoppingCart values(?,?,?)");
 
-            insertStatement.setInt(1, userId);
-            insertStatement.setInt(2, itemId);
+                statement.setInt(1, userId);
+                statement.setInt(2, itemId);
+                statement.setInt(3, nrOfNewItems);
 
-            insertStatement.executeUpdate();
-        }
-        catch (SQLException e){
+            } else {
+                statement = con.prepareStatement("UPDATE `Distribuerade_System`.`ShoppingCart` SET `nrOfItems` = (?) WHERE (`userId` = (?)) and (`itemId` = (?));");
+
+                statement.setInt(1, nrOfExistingItems + nrOfNewItems);
+                statement.setInt(2, userId);
+                statement.setInt(3, itemId);
+
+            }
+            statement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(insertStatement != null){
-                closePreparedStatement(insertStatement);
+        } finally {
+            if (statement != null) {
+                closePreparedStatement(statement);
             }
         }
     }
 
     /**
+     * Checks if a particular user has a particular item in his shopping cart, if yes. Return the amount
+     * of that item. Otherwise, return -1.
+     *
+     * @param itemId
+     * @param userId
+     * @return
+     */
+    public static int nrOfItemsInCart(int itemId, int userId) { //TODO Gör private
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select nrOfItems from ShoppingCart where userId = " + "'" + userId + "'" + " AND itemId = " + "'" + itemId + "'");
+            if (rs.next()) {
+                return rs.getInt("nrOfItems");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
      * Takes a userId and returns a collection with the items in that users shoppingCart
+     *
      * @param userId
      * @return Collection with items
      */
@@ -59,8 +97,7 @@ public class ItemDB extends bo.Item {
                     v.addElement(new ItemDB(id, name));
                 }
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return v;
@@ -68,26 +105,33 @@ public class ItemDB extends bo.Item {
 
     /**
      * Gives you the name of an item given the id
+     *
      * @param itemId
      * @return
      */
 
-    public static ItemDB findItemById(int itemId){
+    public static ItemDB findItemById(int itemId) {
         ItemDB result = null;
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select * from Item where itemId = " + "'" + itemId + "'");
-            if (rs.next()){
+            if (rs.next()) {
                 result = new ItemDB(rs.getInt("itemId"), rs.getString("name"));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    public static void createNewUser(String username, String password){ //TODO flytta till ny klass userDB
+    /**
+     * Creates a new user in the database
+     * @param username
+     * @param password
+     */
+
+    public static void createNewUser(String username, String password) { //TODO flytta till ny klass userDB
         PreparedStatement insertStatement = null;
 
         try {
@@ -98,38 +142,42 @@ public class ItemDB extends bo.Item {
             insertStatement.setString(2, password);
 
             insertStatement.executeUpdate();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(insertStatement != null){
+        } finally {
+            if (insertStatement != null) {
                 closePreparedStatement(insertStatement);
             }
         }
     }
 
-    public static int findUserByName(String username, String password){
+    /**
+     * Get the id of a user given the username and password
+     * @param username
+     * @param password
+     * @return
+     */
+
+    public static int findUserByName(String username, String password) {
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT userId FROM distribuerade_system.user WHERE username = " + "'" + username + "'" + " AND password = " + "'" + password + "'");
 
-            if (rs.next()){
+            if (rs.next()) {
                 return rs.getInt("userId");
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
     }
 
-    private static void closePreparedStatement(PreparedStatement statement){
-        try{
+    private static void closePreparedStatement(PreparedStatement statement) {
+        try {
             statement.close();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
