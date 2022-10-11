@@ -15,12 +15,20 @@ public class Item {
         this.name = name;
     }
 
+    static public Collection getShoppingCartItems(int userId) {
+        return ItemDB.lookUpShoppingChartWithUserId(userId);
+    }
+
     public String getName() {
         return name;
     }
 
     public int getPrice() {
         return price;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public static void addItemToCart(int itemId, int userId){

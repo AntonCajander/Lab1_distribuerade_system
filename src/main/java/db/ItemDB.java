@@ -41,16 +41,23 @@ public class ItemDB extends bo.Item {
      * @return Collection with items
      */
 
-    public static Collection<ItemDB> lookUpShoppingChartWithUserId(int userId) { //TODO FEL
+    public static Collection<ItemDB> lookUpShoppingChartWithUserId(int userId) {
         Vector<ItemDB> v = new Vector<>();
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from ShoppingCart where userId = " + "'" + userId + "'");
-            while (rs.next()) {
-                int id = rs.getInt("itemId");
-                String name = rs.getString("userId");
-                v.addElement(new ItemDB(id, name));
+            ResultSet rs = st.executeQuery("select itemId from ShoppingCart where userId = " + "'" +  userId + "'");
+
+            while(rs.next()){
+                Statement st2 = con.createStatement();
+                ResultSet rs2 = st2.executeQuery("select * from Item where itemId = " + "'" +  rs.getInt("itemId") + "'");
+
+                while(rs2.next()){
+                    System.out.println("Resultat ");
+                    int id = rs2.getInt("itemId");
+                    String name = rs2.getString("name");
+                    v.addElement(new ItemDB(id, name));
+                }
             }
         }
         catch(SQLException e){
