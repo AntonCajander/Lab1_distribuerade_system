@@ -30,7 +30,7 @@ public class ItemDB extends bo.Item {
 
     /**
      * Checks to see if the user already has that item in the shopping cart, if yes. Execute an update statement
-     * that increase the nr of that item. If not, execute insert statement with the item and the amount of that item.
+     * that increase the nr of that item. If not, execute insert statement with the item and the amount of that item
      *
      * @param itemId
      * @param userId
