@@ -16,7 +16,6 @@
 
 
 <%
-
     String username = request.getParameter("uname");
     String pwd = request.getParameter("pass");
 
@@ -31,32 +30,9 @@
             <a href="store.jsp">Go to store</a>
             <%
         }
-        else { %>
-            <form method="post" action="index.jsp">
-                <table border="1">
-                    <tbody>
-                    <tr>
-                        <td>Registrerings namn</td>
-                        <td><input type="text" name="regUname" value=""
-                        /></td>
-                    </tr>
-                    <tr>
-                        <td>Registrerings Password</td>
-                        <td><input type="password" name="regPass" value="">
-
-                    <tr>
-                        <td><input type="submit" value="Login"
-                        /></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
-            <a href="index.jsp">aaa</a>
-
-        <% }
 
     } else { %>
-<form method="post" action="index.jsp">
+<form method="post" action="login.jsp">
     <table border="1">
         <tbody>
         <tr>
@@ -74,14 +50,12 @@
         </tr>
         </tbody>
     </table>
+    <a href="register.jsp"> Register account </a>
 </form>
-<% }
-    String regUsername = request.getParameter("regUname");
-    String regPwd = request.getParameter("regPass");
-    if (regUsername != null && regPwd != null) {
-        ItemHandler.createNewUser(regUsername, regPwd);
+<%
     }
 %>
+
 
 <br>
 </body>

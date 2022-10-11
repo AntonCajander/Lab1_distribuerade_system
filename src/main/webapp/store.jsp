@@ -68,7 +68,7 @@
     <br>
     <br>
     <br>
-    <a href="index.jsp">Change Account</a>
+    <a href="login.jsp">Change Account</a>
 
 </body>
 </html>

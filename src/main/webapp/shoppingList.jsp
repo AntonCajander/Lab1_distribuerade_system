@@ -31,7 +31,7 @@
 
 <br>
 <br>
-<a href="store.jsp">Shopping list</a>
+<a href="store.jsp">Store</a>
 
 </body>
 </html>
