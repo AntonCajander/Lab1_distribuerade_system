@@ -10,11 +10,13 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "HEJ!" %>
+<h1><%= "Välkommen till affären!" %>
 </h1>
 <br/>
 
+
 <%
+
     String username = request.getParameter("uname");
     String pwd = request.getParameter("pass");
 
@@ -25,7 +27,8 @@
             session.setAttribute("userid", id);
             %>
             Logged in as <%= username %>
-            <a href="shoppingList.jsp">Go to shoppinglist</a>
+            <br>
+            <a href="store.jsp">Go to store</a>
             <%
         }
         else { %>
@@ -38,7 +41,7 @@
                         /></td>
                     </tr>
                     <tr>
-                        <td>Reg Password</td>
+                        <td>Registrerings Password</td>
                         <td><input type="password" name="regPass" value="">
 
                     <tr>
