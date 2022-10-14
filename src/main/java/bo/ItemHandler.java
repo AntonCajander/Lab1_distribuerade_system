@@ -27,9 +27,7 @@ public class ItemHandler {
         Item.createNewUser(username, password);
     }
 
-    public static int findUserByName(String username, String password){
-        return Item.findUserByName(username, password);
-    }
+
 
     public static Collection<ItemInfo> getAllItems() {
         Collection c = Item.getAllItems();

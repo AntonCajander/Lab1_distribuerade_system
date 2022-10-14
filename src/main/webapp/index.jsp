@@ -15,24 +15,8 @@
 <br/>
 
 
-<%
-    String username = request.getParameter("uname");
-    String pwd = request.getParameter("pass");
 
-    if (pwd != null && username != null) {
-        int id = ItemHandler.findUserByName(username, pwd);
-
-        if (id != -1) {
-            session.setAttribute("userid", id);
-            %>
-            Logged in as <%= username %>
-            <br>
-            <a href="store.jsp">Go to store</a>
-            <%
-        }
-
-    } else { %>
-<form method="post" action="index.jsp">
+<form method="post" action="login">
     <table border="1">
         <tbody>
         <tr>
@@ -52,9 +36,7 @@
     </table>
     <a href="register.jsp"> Register account </a>
 </form>
-<%
-    }
-%>
+
 
 
 <br>
