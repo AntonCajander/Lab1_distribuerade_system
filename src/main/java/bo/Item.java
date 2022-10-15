@@ -40,7 +40,7 @@ public class Item {
      * @return
      */
 
-    static public Collection getShoppingCartItems(int userId) {
+    static public Collection<ItemDB> getShoppingCartItems(int userId) {
         return ItemDB.lookUpShoppingChartWithUserId(userId);
     }
 
@@ -75,6 +75,10 @@ public class Item {
         return ItemDB.findUserByName(username, password);
     }
 
+    public static Collection<ItemDB> getAllItems() {
+        return ItemDB.getAllItems();
+    }
+
     public String getName() {
         return name;
     }
@@ -85,9 +89,6 @@ public class Item {
 
     public int getId(){
         return id;
-    }
-    static public Collection getAllItems() {
-        return ItemDB.getAllItems();
     }
 }
 

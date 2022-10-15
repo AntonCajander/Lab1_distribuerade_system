@@ -1,5 +1,6 @@
 package bo;
 
+import db.ItemDB;
 import ui.ItemInfo;
 
 import java.util.ArrayList;
@@ -13,27 +14,25 @@ public class ItemHandler {
     }
 
     public static Collection<ItemInfo> getShoppingCartItems(int userId) {
-        Collection c = Item.getShoppingCartItems(userId);
-        ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
+        Collection<ItemDB> itemDBCollection = Item.getShoppingCartItems(userId);
+        ArrayList<ItemInfo> itemInfoList = new ArrayList<>();
 
-        for (Iterator it = c.iterator(); it.hasNext(); ) {
+        for (Iterator it = itemDBCollection.iterator(); it.hasNext(); ) {
             Item item = (Item) it.next();
-            items.add(new ItemInfo(item.getName(), item.getId(), item.getNrOfItems()));
+            itemInfoList.add(new ItemInfo(item.getName(), item.getId(), item.getNrOfItems()));
         }
-        return items;
+        return itemInfoList;
     }
 
     public static void createNewUser(String username, String password){
         Item.createNewUser(username, password);
     }
 
-
-
     public static Collection<ItemInfo> getAllItems() {
-        Collection c = Item.getAllItems();
-        ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
+        Collection<ItemDB> itemDBCollection = Item.getAllItems();
+        ArrayList<ItemInfo> items = new ArrayList<>();
 
-        for (Iterator it = c.iterator(); it.hasNext(); ) {
+        for (Iterator it = itemDBCollection.iterator(); it.hasNext(); ) {
             Item item = (Item) it.next();
             items.add(new ItemInfo(item.getName(), item.getId()));
         }

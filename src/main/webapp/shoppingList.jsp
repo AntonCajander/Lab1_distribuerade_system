@@ -16,7 +16,7 @@
 <%
     int userId = (int) session.getAttribute("userid");
 
-    Collection<ItemInfo> listItems = ItemHandler.getShoppingCartItems(userId);
+    Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("shoppingCartItemsForUser");
 
     Iterator<ItemInfo> it = listItems.iterator();
     for (;it.hasNext();){

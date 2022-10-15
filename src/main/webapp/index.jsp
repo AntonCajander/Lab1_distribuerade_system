@@ -1,8 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@page import="ui.ItemInfo"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.applet.Applet" %>
-<%@ page import="bo.ItemHandler" %>
 
 <!DOCTYPE html>
 <html>
