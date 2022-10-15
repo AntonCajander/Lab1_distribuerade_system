@@ -19,12 +19,15 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+        System.out.println("TESTTEST");
         String servletPath = request.getServletPath();
+        System.out.println(servletPath);
         RequestDispatcher requestDispatcher;
         switch (servletPath) {
-            case "/getShoppingCartItems" -> {
+            case "/shoppingCartItems" -> {
+                System.out.println("INNE I SWITCH");
                 getShoppingCartItems(request, response);
-                requestDispatcher = request.getRequestDispatcher("index.jsp");
+                requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
                 requestDispatcher.forward(request, response);
             }
             case "/getAllItems" -> {
@@ -32,7 +35,8 @@ public class Servlet extends HttpServlet {
                 requestDispatcher = request.getRequestDispatcher("index.jsp");
                 requestDispatcher.forward(request, response);
             }
-            default -> {
+            default -> { //TODO Kolla om den ska vara kvar
+                System.out.println("DEFAULT");
                 getShoppingCartItems(request, response);
                 requestDispatcher = request.getRequestDispatcher("index.jsp");
             }
