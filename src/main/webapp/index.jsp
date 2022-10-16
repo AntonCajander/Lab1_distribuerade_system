@@ -9,9 +9,6 @@
 <h1><%= "Välkommen till affären!" %>
 </h1>
 <br/>
-
-
-
 <form method="post" action="login">
     <table border="1">
         <tbody>
@@ -31,9 +28,6 @@
         </tbody>
     </table>
 </form>
-
-
-
 <br>
 </body>
 </html>

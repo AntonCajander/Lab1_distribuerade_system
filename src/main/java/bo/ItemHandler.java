@@ -21,7 +21,7 @@ public class ItemHandler {
         return itemInfoList;
     }
 
-    public static void createNewUser(String username, String password){
+    public static void createNewUser(String username, String password) {
         Item.createNewUser(username, password);
     }
 
@@ -36,13 +36,12 @@ public class ItemHandler {
         return items;
     }
 
-    public static boolean addItemToCart(String name, int userId){
+    public static boolean addItemToCart(String name, int userId) {
         int itemId = Item.findItemIdByName(name);
 
-        if(itemId == -1 || userId == -1){
+        if (itemId == -1 || userId == -1) {
             return false;
-        }
-        else{
+        } else {
             Item.addItemToCart(itemId, userId);
             return true;
         }

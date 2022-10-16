@@ -9,6 +9,7 @@ public class ItemInfo {
         this.name = name;
         this.itemId = itemId;
     }
+
     public ItemInfo(String name, int itemId, int nrOfItems) {
         this.name = name;
         this.itemId = itemId;
@@ -23,7 +24,7 @@ public class ItemInfo {
         return name;
     }
 
-    public int getNrOfItems(){
+    public int getNrOfItems() {
         return nrOfItems;
     }
 

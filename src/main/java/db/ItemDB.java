@@ -9,6 +9,7 @@ public class ItemDB extends bo.Item {
 
     /**
      * Constructor with the variable nrOfItems which is used to see how many of a particular item a certain user has
+     *
      * @param id
      * @param name
      * @param nrOfItems
@@ -20,6 +21,7 @@ public class ItemDB extends bo.Item {
 
     /**
      * Constructor without nrOfItems
+     *
      * @param id
      * @param name
      */
@@ -68,6 +70,7 @@ public class ItemDB extends bo.Item {
 
     /**
      * Returns a vector containing every item in the store
+     *
      * @return vector
      */
 
@@ -77,7 +80,7 @@ public class ItemDB extends bo.Item {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select * from Item");
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("itemId");
                 String name = rs.getString("name");
                 v.addElement(new ItemDB(id, name));
@@ -122,13 +125,13 @@ public class ItemDB extends bo.Item {
         try {
             Connection con = DbManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select itemId, nrOfItems from ShoppingCart where userId = " + "'" +  userId + "'");
+            ResultSet rs = st.executeQuery("select itemId, nrOfItems from ShoppingCart where userId = " + "'" + userId + "'");
 
-            while(rs.next()){
+            while (rs.next()) {
                 Statement st2 = con.createStatement();
-                ResultSet rs2 = st2.executeQuery("select * from Item where itemId = " + "'" +  rs.getInt("itemId") + "'");
+                ResultSet rs2 = st2.executeQuery("select * from Item where itemId = " + "'" + rs.getInt("itemId") + "'");
 
-                while(rs2.next()){
+                while (rs2.next()) {
                     int id = rs2.getInt("itemId");
                     String name = rs2.getString("name");
                     int nrOfItems = rs.getInt("nrOfItems");
@@ -186,55 +189,8 @@ public class ItemDB extends bo.Item {
     }
 
     /**
-     * Creates a new user in the database
-     * @param username
-     * @param password
-     */
-
-    public static void createNewUser(String username, String password) { //TODO flytta till ny klass userDB
-        PreparedStatement insertStatement = null;
-        try {
-            Connection con = DbManager.getConnection();
-            insertStatement = con.prepareStatement("INSERT INTO `distribuerade_system`.`user` (`username`, `password`) VALUES (?, ?);");
-
-            insertStatement.setString(1, username);
-            insertStatement.setString(2, password);
-
-            insertStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (insertStatement != null) {
-                closePreparedStatement(insertStatement);
-            }
-        }
-    }
-
-    /**
-     * Get the id of a user given the username and password
-     * @param username
-     * @param password
-     * @return
-     */
-
-    public static int findUserByName(String username, String password) {
-        try {
-            Connection con = DbManager.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT userId FROM distribuerade_system.user WHERE username = " + "'" + username + "'" + " AND password = " + "'" + password + "'");
-
-            if (rs.next()) {
-                return rs.getInt("userId");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    /**
      * Used to close the prepared statement
+     *
      * @param statement
      */
 
