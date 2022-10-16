@@ -27,7 +27,7 @@
     }
 %>
 <br>
-<form method="post" action="store.jsp">
+<form method="post" action="addItem">
     <select name="item">
         <%
             Iterator<ItemInfo> itAllItems = allItemsList.iterator();
@@ -38,7 +38,6 @@
             }
         %>
     </select>
-
     <input type="submit" value="add item"><br/>
 
 </form>
@@ -58,7 +57,6 @@
             }
         }
         if(itemId != -1){
-            ItemHandler.addItemToCart(itemId, userId);
         }
     }
 %>
@@ -70,5 +68,10 @@
     <br>
     <a href="index.jsp">Change Account</a>
 
+
+<form action="addItem" method="post">
+
+
+</form>
 </body>
 </html>

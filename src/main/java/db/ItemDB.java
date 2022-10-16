@@ -164,6 +164,28 @@ public class ItemDB extends bo.Item {
     }
 
     /**
+     * Gives you the id of an item given the name
+     *
+     * @param itemName
+     * @return itemId
+     */
+
+    public static int findItemIdByName(String itemName) {
+        int result = -1;
+        try {
+            Connection con = DbManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select itemId from Item where name = " + "'" + itemName + "'");
+            if (rs.next()) {
+                result = rs.getInt("itemId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * Creates a new user in the database
      * @param username
      * @param password

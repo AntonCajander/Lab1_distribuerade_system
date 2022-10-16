@@ -9,9 +9,6 @@ import java.util.Iterator;
 
 public class ItemHandler {
 
-    public static void addItemToCart(int itemId, int userId){
-        Item.addItemToCart(itemId, userId);
-    }
 
     public static Collection<ItemInfo> getShoppingCartItems(int userId) {
         Collection<ItemDB> itemDBCollection = Item.getShoppingCartItems(userId);
@@ -37,5 +34,17 @@ public class ItemHandler {
             items.add(new ItemInfo(item.getName(), item.getId()));
         }
         return items;
+    }
+
+    public static boolean addItemToCart(String name, int userId){
+        int itemId = Item.findItemIdByName(name);
+
+        if(itemId == -1 || userId == -1){
+            return false;
+        }
+        else{
+            Item.addItemToCart(itemId, userId);
+            return true;
+        }
     }
 }

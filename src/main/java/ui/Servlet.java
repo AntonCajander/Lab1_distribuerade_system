@@ -1,5 +1,6 @@
 package ui;
 
+import bo.Item;
 import bo.ItemHandler;
 
 import bo.UserHandler;
@@ -68,6 +69,27 @@ public class Servlet extends HttpServlet {
         if(getPath.equalsIgnoreCase("/login")){
             postLogin(request, response);
         }
+        else if (getPath.equalsIgnoreCase("/addItem")) {
+            postAddItem(request, response);
+        }
+        else{
+            System.out.println("PATH does not exisit");
+        }
+    }
+
+    private void postAddItem(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("I Add Item");
+
+        String itemName = request.getParameter("itemName");
+        String userIdString = request.getParameter("userid");
+        int userId = Integer.parseInt(userIdString);
+
+        if(itemName != null || userId != -1 || userIdString != null){
+            boolean success = ItemHandler.addItemToCart(itemName, userId);
+            if(success){
+                System.out.println("Lyckat"); //TODO Vet inte vad man ska göra här
+            }
+        }
     }
 
     private void postLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,7 +99,7 @@ public class Servlet extends HttpServlet {
 
         System.out.println("Username " + username + " password " + password);
 
-        if(username != null && password != null){
+        if(username != null || password != null){
             int userId = UserHandler.findUserByName(username, password);
             if(userId != -1){
                 HttpSession session = request.getSession();

@@ -79,6 +79,10 @@ public class Item {
         return ItemDB.getAllItems();
     }
 
+    public static int findItemIdByName(String name){
+        return ItemDB.findItemIdByName(name);
+    }
+
     public String getName() {
         return name;
     }
