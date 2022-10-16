@@ -1,6 +1,5 @@
 <%@ page import="ui.ItemInfo" %>
 <%@ page import="java.util.Iterator" %>
-<%@ page import="bo.ItemHandler" %>
 <%@ page import="java.util.Collection" %><%--
   Created by IntelliJ IDEA.
   User: Marcus
@@ -13,65 +12,21 @@
 
 <body>
 <label> <b>Stores Items:</b> </label>
-<br>
-<br>
-<%
-    Collection<ItemInfo> allItemsList = ItemHandler.getAllItems();
+<form method="get" action="getAllItems">
+    <input type="submit" value="getAllItems">
+    <%
+        if (request.getAttribute("allItems") != null){
+            Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("allItems");
 
-    Iterator<ItemInfo> it = allItemsList.iterator();
-        for (;it.hasNext();){
-        ItemInfo item = it.next(); %>
-            <%= item.getName() %>
-        <br>
-            <%
-    }
-%>
-<br>
-<form method="post" action="addItem">
-    <select name="item">
-        <%
-            Iterator<ItemInfo> itAllItems = allItemsList.iterator();
-            for (;itAllItems.hasNext();){
-                ItemInfo allItem = itAllItems.next();%>
-        <option> <%= allItem.getName() %> </option>
-        <%
-            }
-        %>
-    </select>
-    <input type="submit" value="add item"><br/>
-
-</form>
-<%
-    int userId = (int) session.getAttribute("userid");
-
-    if(request.getParameter("item") != null){
-        String itemString = request.getParameter("item");
-        int itemId = -1;
-
-        Iterator<ItemInfo> itAllItems2 = allItemsList.iterator();
-
-        for (;itAllItems2.hasNext();) {
-            ItemInfo allItem = itAllItems2.next();
-            if(itemString.equals(allItem.getName())){
-                itemId = allItem.getItemId();
+            Iterator<ItemInfo> it = listItems.iterator();
+            for (;it.hasNext();){
+                ItemInfo item = it.next(); %>
+    <%= item.getName() %>
+    <br>
+    <%
             }
         }
-        if(itemId != -1){
-        }
-    }
-%>
-    <br>
-    <a href="shoppingList.jsp">Shopping list</a>
-    <br>
-    <br>
-    <br>
-    <br>
-    <a href="index.jsp">Change Account</a>
-
-
-<form action="addItem" method="post">
-
-
+    %>
 </form>
 </body>
 </html>

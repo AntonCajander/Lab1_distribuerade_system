@@ -20,24 +20,21 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-        System.out.println("TESTTEST");
         String servletPath = request.getServletPath();
         System.out.println(servletPath);
         RequestDispatcher requestDispatcher;
         switch (servletPath) {
             case "/shoppingCartItems" -> {
-                System.out.println("INNE I SWITCH");
                 getShoppingCartItems(request, response);
                 requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
                 requestDispatcher.forward(request, response);
             }
             case "/getAllItems" -> {
                 getAllItems(request, response);
-                requestDispatcher = request.getRequestDispatcher("index.jsp");
+                requestDispatcher = request.getRequestDispatcher("store.jsp");
                 requestDispatcher.forward(request, response);
             }
-            default -> { //TODO Kolla om den ska vara kvar
-                System.out.println("DEFAULT");
+            default -> { //TODO Kolla om den ska vara kvar + fixa
                 getShoppingCartItems(request, response);
                 requestDispatcher = request.getRequestDispatcher("index.jsp");
             }
@@ -46,17 +43,14 @@ public class Servlet extends HttpServlet {
 
     private void getShoppingCartItems(HttpServletRequest req, HttpServletResponse res)
     {
-        System.out.println("getShoppingCartItems");
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("userid");
-        System.out.println(userId);
         Collection<ItemInfo> shoppingCartItemsForUser = ItemHandler.getShoppingCartItems(userId);
         req.setAttribute("shoppingCartItemsForUser", shoppingCartItemsForUser); //TODO kolla "shoppingCArtItemsForUser"
     }
 
     private void getAllItems(HttpServletRequest req, HttpServletResponse res)
     {
-        System.out.println("get Store!");
         Collection<ItemInfo> allItems = ItemHandler.getAllItems();
         req.setAttribute("allItems", allItems);
     }

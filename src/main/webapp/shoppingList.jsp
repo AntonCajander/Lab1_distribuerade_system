@@ -8,9 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="ui.ItemInfo"%>
 <%@ page import="java.util.Collection" %>
-<%@ page import="bo.ItemHandler" %>
 <%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.ArrayList" %>
 <html>
 <body>
 <form method="get" action="shoppingCartItems">
@@ -30,9 +28,6 @@
         }
     %>
 </form>
-
-
-
 <br>
 <br>
 <a href="store.jsp">Store</a>
