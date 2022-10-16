@@ -30,7 +30,6 @@
         </tr>
         </tbody>
     </table>
-    <a href="register.jsp"> Register account </a>
 </form>
 
 

@@ -14,19 +14,31 @@
 <label> <b>Stores Items:</b> </label>
 <form method="get" action="getAllItems">
     <input type="submit" value="getAllItems">
-    <%
-        if (request.getAttribute("allItems") != null){
-            Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("allItems");
+</form>
 
-            Iterator<ItemInfo> it = listItems.iterator();
-            for (;it.hasNext();){
-                ItemInfo item = it.next(); %>
-    <%= item.getName() %>
-    <br>
+<%
+        if (request.getAttribute("allItems") != null){
+            %>
+            <form method="post" action="addItem">
+                <select name="item">
+                    <%
+                    Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("allItems");
+                    Iterator<ItemInfo> it = listItems.iterator();
+
+                    for (;it.hasNext();){
+                        ItemInfo item = it.next(); %>
+                            <option> <%= item.getName() %> </option> <br>
+                    <%
+                    }
+                    %>
+                </select>
+                <input type="submit" value="add item"><br/>
+            </form>
     <%
-            }
         }
     %>
-</form>
+
+<a href="shoppingList.jsp">Store</a>
+
 </body>
 </html>

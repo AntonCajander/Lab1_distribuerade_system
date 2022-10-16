@@ -13,18 +13,19 @@
 <body>
 <form method="get" action="shoppingCartItems">
     <input type="submit" value="getShoppingCart">
-    <%
-        if (request.getAttribute("shoppingCartItemsForUser") != null){
-        Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("shoppingCartItemsForUser");
-
-        Iterator<ItemInfo> it = listItems.iterator();
-        for (;it.hasNext();){
-            ItemInfo item = it.next(); %>
-    <%= item.getName() %>
-    <%= item.getNrOfItems() %>
     <br>
     <%
-        }
+        if (request.getAttribute("shoppingCartItemsForUser") != null){
+            Collection<ItemInfo> listItems = (Collection<ItemInfo>) request.getAttribute("shoppingCartItemsForUser");
+
+            Iterator<ItemInfo> it = listItems.iterator();
+            for (;it.hasNext();){
+                ItemInfo item = it.next(); %>
+                    <%= item.getName() %>
+                    <%= item.getNrOfItems() %>
+                    <br>
+    <%
+            }
         }
     %>
 </form>

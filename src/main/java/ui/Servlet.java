@@ -23,6 +23,7 @@ public class Servlet extends HttpServlet {
         String servletPath = request.getServletPath();
         System.out.println(servletPath);
         RequestDispatcher requestDispatcher;
+
         switch (servletPath) {
             case "/shoppingCartItems" -> {
                 getShoppingCartItems(request, response);
@@ -57,53 +58,70 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Inne i do Post");
         String getPath = request.getServletPath();
+        RequestDispatcher requestDispatcher;
+
 
         if(getPath.equalsIgnoreCase("/login")){
-            postLogin(request, response);
+            boolean success = postLogin(request, response);
+
+            if(success){
+                requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
+                requestDispatcher.forward(request, response);
+            }
+            else{
+                requestDispatcher = request.getRequestDispatcher("index.jsp");
+                requestDispatcher.forward(request, response);
+            }
         }
         else if (getPath.equalsIgnoreCase("/addItem")) {
-            postAddItem(request, response);
+            boolean success = postAddItem(request, response);
+
+            if(success){
+                requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
+                requestDispatcher.forward(request, response);
+            }
+            else{
+                requestDispatcher = request.getRequestDispatcher("index.jsp");
+                requestDispatcher.forward(request, response);
+            }
         }
         else{
             System.out.println("PATH does not exisit");
+            requestDispatcher = request.getRequestDispatcher("index.jsp");
+            requestDispatcher.forward(request, response);
         }
     }
 
-    private void postAddItem(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("I Add Item");
+    private boolean postAddItem(HttpServletRequest request, HttpServletResponse response) {
+        String itemName = request.getParameter("item");
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userid");
 
-        String itemName = request.getParameter("itemName");
-        String userIdString = request.getParameter("userid");
-        int userId = Integer.parseInt(userIdString);
-
-        if(itemName != null || userId != -1 || userIdString != null){
-            boolean success = ItemHandler.addItemToCart(itemName, userId);
-            if(success){
-                System.out.println("Lyckat"); //TODO Vet inte vad man ska göra här
-            }
+        if(itemName != null || userId != -1){
+            return ItemHandler.addItemToCart(itemName, userId);
         }
+        return false;
     }
 
-    private void postLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Inne i do Login");
+    private boolean postLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("uname");
         String password = request.getParameter("pass");
 
-        System.out.println("Username " + username + " password " + password);
-
         if(username != null || password != null){
             int userId = UserHandler.findUserByName(username, password);
+            System.out.println(" user id " + userId);
             if(userId != -1){
                 HttpSession session = request.getSession();
                 session.setAttribute("userid", userId);
-                RequestDispatcher dis = request.getRequestDispatcher("shoppingList.jsp");
-                dis.forward(request,response);
+                return true;
             }
             else{
-                response.sendRedirect("index.jsp");
+                return false;
             }
+        }
+        else{
+            return false;
         }
     }
 }
