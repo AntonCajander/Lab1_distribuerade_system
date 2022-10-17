@@ -12,4 +12,8 @@ public class UserHandler {
             return -1;
         }
     }
+
+    public static void createNewUser(String username, String password) {
+        Item.createNewUser(username, password);
+    }
 }

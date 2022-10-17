@@ -19,7 +19,6 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String servletPath = request.getServletPath();
-        System.out.println(servletPath);
         RequestDispatcher requestDispatcher;
 
         switch (servletPath) {
@@ -29,13 +28,13 @@ public class Servlet extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }
             case "/getAllItems" -> {
-                getAllItems(request, response);
+                getAllItems(request);
                 requestDispatcher = request.getRequestDispatcher("store.jsp");
                 requestDispatcher.forward(request, response);
             }
             default -> {
-                System.out.println("DEFAULT");
-                response.sendRedirect("index.jsp");
+                requestDispatcher = request.getRequestDispatcher("index.jsp");
+                requestDispatcher.forward(request, response);
             }
         }
     }
@@ -47,7 +46,7 @@ public class Servlet extends HttpServlet {
         req.setAttribute("shoppingCartItemsForUser", shoppingCartItemsForUser);
     }
 
-    private void getAllItems(HttpServletRequest req, HttpServletResponse res) {
+    private void getAllItems(HttpServletRequest req) {
         Collection<ItemInfo> allItems = ItemHandler.getAllItems();
         req.setAttribute("allItems", allItems);
     }
@@ -59,7 +58,7 @@ public class Servlet extends HttpServlet {
 
 
         if (getPath.equalsIgnoreCase("/login")) {
-            boolean success = postLogin(request, response);
+            boolean success = postLogin(request);
 
             if (success) {
                 requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
@@ -69,7 +68,7 @@ public class Servlet extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }
         } else if (getPath.equalsIgnoreCase("/addItem")) {
-            boolean success = postAddItem(request, response);
+            boolean success = postAddItem(request);
 
             if (success) {
                 requestDispatcher = request.getRequestDispatcher("shoppingList.jsp");
@@ -79,13 +78,12 @@ public class Servlet extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }
         } else {
-            System.out.println("PATH does not exisit");
             requestDispatcher = request.getRequestDispatcher("index.jsp");
             requestDispatcher.forward(request, response);
         }
     }
 
-    private boolean postAddItem(HttpServletRequest request, HttpServletResponse response) {
+    private boolean postAddItem(HttpServletRequest request) {
         String itemName = request.getParameter("item");
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userid");
@@ -96,13 +94,12 @@ public class Servlet extends HttpServlet {
         return false;
     }
 
-    private boolean postLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private boolean postLogin(HttpServletRequest request){
         String username = request.getParameter("uname");
         String password = request.getParameter("pass");
 
         if (username != null || password != null) {
             int userId = UserHandler.findUserByName(username, password);
-            System.out.println(" user id " + userId);
             if (userId != -1) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userid", userId);

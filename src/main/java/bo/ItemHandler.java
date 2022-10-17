@@ -21,10 +21,6 @@ public class ItemHandler {
         return itemInfoList;
     }
 
-    public static void createNewUser(String username, String password) {
-        Item.createNewUser(username, password);
-    }
-
     public static Collection<ItemInfo> getAllItems() {
         Collection<ItemDB> itemDBCollection = Item.getAllItems();
         ArrayList<ItemInfo> items = new ArrayList<>();
